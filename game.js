@@ -43,7 +43,7 @@ class Game {
         this.ui.fadeButtonInAndOut(clickedColor, this.animationDuration);
         this.audioPlayer.playAudioColor(clickedColor);
         //validate answer call
-        
+
     }
 }
 
@@ -83,5 +83,23 @@ class AudioPlayer {
 }
 
 $(window).on('load',() => {
+    const buttonColors = ['red', 'blue', 'green', 'yellow'];
+    const animationDuration = 100;
+    const gameOverDelay = 200;
 
-})
+    const game = new Game(buttonColors, animationDuration, gameOverDelay);
+
+    $(document).on('keypress', () => {
+
+    if (!game.gameIsStarted) {
+    game.start();
+    }
+    
+    });
+
+    $('.btn').on('click', function () {
+        const clickedColor = $(this)[0].id;
+        game.handleButtonClick(clickedColor);
+    });
+
+});
