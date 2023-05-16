@@ -65,3 +65,14 @@ class UI {
       .fadeIn(animationDuration);
     }
 }
+
+class AudioPlayer {
+    playAudioColor(name) {
+        const audio = new Audio(`./sounds/${name}.mp3`);
+        audio.play();
+    }
+}
+
+$(window).on('load',() => {
+    
+})
