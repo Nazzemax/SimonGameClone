@@ -37,3 +37,31 @@ class Game {
 
 
 }
+
+class UI {
+    constructor() {
+        this.levelTitleElement = $('#level-title');
+    }
+
+    displayLevel() {
+        this.levelTitleElement.text('Game over!');
+    }
+
+    animateButtonPress(currentColor) {
+        this.addAndRemoveClassWithDelay(currentColor, 'pressed', 100);
+    }
+
+    addAndRemoveClassWithDelay(selector, className, time) {
+        $(`.${selector}`).addClass(className);
+        setTimeout(() => {
+          $(`.${selector}`).removeClass(className);
+        }, time);
+    }
+
+    fadeButtonInAndOut(buttonColor, animationDuration) {
+        $(`#${buttonColor}`)
+      .fadeIn(animationDuration)
+      .fadeOut(animationDuration)
+      .fadeIn(animationDuration);
+    }
+}
