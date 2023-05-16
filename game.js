@@ -64,6 +64,14 @@ class Game {
         //validate answer call
         this.validateUserAnswer(clickedColor);
     }
+
+    resetGame() {
+        this.gamePattern = [];
+        this.userClickedPattern = [];
+        this.level = 0;
+        this.gameIsStarted = false;
+        this.ui.displayLevel('Press A Key to Start');
+      }
 }
 
 class UI {
