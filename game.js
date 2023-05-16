@@ -1,4 +1,4 @@
-// I am going to create Game class that will be responsible for handling game logic 
+// Game main class that handles game logic 
 class Game {
     constructor(buttonColours, animationDuration, gameOverDelay) {
         this.buttonColours = buttonColours;
@@ -8,31 +8,28 @@ class Game {
         this.userClickedPattern = [];
         this.level = 0;
         this.gameIsStarted = false;
-        //Here will be ui instance later
-
-        //Here will be audio player instance later
-
+        this.ui = new UI(); 
+        this.audioPlayer = new AudioPlayer();
     }
 
-    //Method for starting game
+   
     start() {
         //display level to user with ui
-
+        this.ui.displayLevel(`Level ${this.level}`);
         //generate color sequence 
-
+        this.generateColorSequence();
         this.gameIsStarted = true;
     }
 
     generateColorSequence() {
         this.userClickedPattern = [];
         this.level++;
-        //display user that he got to another lvl
-
-        //make rundom selection of color
-
-        //make animation for button from ui
-
-        //play audio for specific color
+        this.ui.displayLevel(`Level ${this.level}`);
+        const randomNumber = Math.floor(Math.random() * this.buttonColors.length);
+        const randomChosenColor = this.buttonColors[randomNumber];
+        this.gamePattern.push(randomChosenColor);
+        this.ui.animateButtonPress(randomChosenColor);
+        this.audioPlayer.playAudioForColor(randomChosenColor);
     }
 
 
@@ -74,5 +71,5 @@ class AudioPlayer {
 }
 
 $(window).on('load',() => {
-    
+
 })
