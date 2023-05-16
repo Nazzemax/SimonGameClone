@@ -21,7 +21,7 @@ class Game {
         this.gameIsStarted = true;
     }
 
-    generateColorSequence() {
+    generateNextColorSequence() {
         this.userClickedPattern = [];
         this.level++;
         this.ui.displayLevel(`Level ${this.level}`);
