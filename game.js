@@ -15,7 +15,7 @@ class Game {
    
     start() {
         this.ui.displayLevel(`Level ${this.level}`);
-        this.generateColorSequence();
+        this.generateNextColorSequence();
         this.gameIsStarted = true;
     }
 
@@ -23,42 +23,43 @@ class Game {
         this.userClickedPattern = [];
         this.level++;
         this.ui.displayLevel(`Level ${this.level}`);
-        const randomNumber = Math.floor(Math.random() * this.buttonColors.length);
-        const randomChosenColor = this.buttonColors[randomNumber];
+        const randomNumber = Math.floor(Math.random() * this.buttonColours.length);
+        const randomChosenColor = this.buttonColours[randomNumber];
         this.gamePattern.push(randomChosenColor);
         this.ui.animateButtonPress(randomChosenColor);
         this.audioPlayer.playAudioForColor(randomChosenColor);
     }
 
     validateUserAnswer(currentLevel) {
-        if(
-            this.gamePattern[currentLevel] === this.userClickedPattern[currentLevel]
+        if (
+          this.gamePattern[currentLevel] === this.userClickedPattern[currentLevel]
         ) {
-            if(this.userClickedPattern.length === this.gamePattern.length) {
-                setTimeout(() => {
-                    this.generateNextColorSequence();
-                  }, 1000);
-            }
-        } else {
-            this.audioPlayer.playAudioForColor('wrong');
-            this.ui.displayGameOver();
-            this.ui.addAndRemoveClassWithDelay(
-              'body',
-              'game-over',
-              this.gameOverDelay
-            );
+          if (this.userClickedPattern.length === this.gamePattern.length) {
             setTimeout(() => {
-              this.resetGame();
-            }, 200);
+              this.generateNextColorSequence();
+            }, 1000);
+          }
+        } else {
+          this.audioPlayer.playAudioForColor('wrong');
+          this.ui.displayGameOver();
+          this.ui.addAndRemoveClassWithDelay(
+            'body',
+            'game-over',
+            this.gameOverDelay
+          );
+          setTimeout(() => {
+            this.resetGame();
+          }, 200);
         }
-    }
+      }
+    
 
     handleButtonClick(clickedColor) {
         this.ui.animateButtonPress(clickedColor);
         this.userClickedPattern.push(clickedColor);
         this.ui.fadeButtonInAndOut(clickedColor, this.animationDuration);
-        this.audioPlayer.playAudioColor(clickedColor);
-        this.validateUserAnswer(clickedColor);
+        this.audioPlayer.playAudioForColor(clickedColor);
+        this.validateUserAnswer(this.userClickedPattern.length - 1);
     }
 
     resetGame() {
@@ -76,7 +77,11 @@ class UI {
         this.levelTitleElement = $('#level-title');
     }
 
-    displayLevel() {
+    displayLevel(levelText) {
+        this.levelTitleElement.text(levelText);
+    }
+
+    displayGameOver() {
         this.levelTitleElement.text('Game over!');
     }
 
@@ -101,7 +106,7 @@ class UI {
 
 //This class responsible for playing sounds
 class AudioPlayer {
-    playAudioColor(name) {
+    playAudioForColor(name) {
         const audio = new Audio(`./sounds/${name}.mp3`);
         audio.play();
     }
@@ -111,15 +116,13 @@ $(window).on('load',() => {
     const buttonColors = ['red', 'blue', 'green', 'yellow'];
     const animationDuration = 100;
     const gameOverDelay = 200;
-
     const game = new Game(buttonColors, animationDuration, gameOverDelay);
 
     $(document).on('keypress', () => {
 
     if (!game.gameIsStarted) {
-    game.start();
+        game.start();
     }
-
     });
 
     $('.btn').on('click', function () {
