@@ -14,9 +14,7 @@ class Game {
 
    
     start() {
-        //display level to user with ui
         this.ui.displayLevel(`Level ${this.level}`);
-        //generate color sequence 
         this.generateColorSequence();
         this.gameIsStarted = true;
     }
@@ -56,12 +54,10 @@ class Game {
     }
 
     handleButtonClick(clickedColor) {
-        //function to react for button clicks
         this.ui.animateButtonPress(clickedColor);
         this.userClickedPattern.push(clickedColor);
         this.ui.fadeButtonInAndOut(clickedColor, this.animationDuration);
         this.audioPlayer.playAudioColor(clickedColor);
-        //validate answer call
         this.validateUserAnswer(clickedColor);
     }
 
@@ -74,6 +70,7 @@ class Game {
       }
 }
 
+//This class responsibility is handling the everything that related to user interface
 class UI {
     constructor() {
         this.levelTitleElement = $('#level-title');
@@ -102,6 +99,7 @@ class UI {
     }
 }
 
+//This class responsible for playing sounds
 class AudioPlayer {
     playAudioColor(name) {
         const audio = new Audio(`./sounds/${name}.mp3`);
