@@ -33,7 +33,26 @@ class Game {
     }
 
     validateUserAnswer(currentLevel) {
-        //Here I will validate user answers
+        if(
+            this.gamePattern[currentLevel] === this.userClickedPattern[currentLevel]
+        ) {
+            if(this.userClickedPattern.length === this.gamePattern.length) {
+                setTimeout(() => {
+                    this.generateNextColorSequence();
+                  }, 1000);
+            }
+        } else {
+            this.audioPlayer.playAudioForColor('wrong');
+            this.ui.displayGameOver();
+            this.ui.addAndRemoveClassWithDelay(
+              'body',
+              'game-over',
+              this.gameOverDelay
+            );
+            setTimeout(() => {
+              this.resetGame();
+            }, 200);
+        }
     }
 
     handleButtonClick(clickedColor) {
@@ -43,7 +62,7 @@ class Game {
         this.ui.fadeButtonInAndOut(clickedColor, this.animationDuration);
         this.audioPlayer.playAudioColor(clickedColor);
         //validate answer call
-
+        this.validateUserAnswer(clickedColor);
     }
 }
 
@@ -94,7 +113,7 @@ $(window).on('load',() => {
     if (!game.gameIsStarted) {
     game.start();
     }
-    
+
     });
 
     $('.btn').on('click', function () {
