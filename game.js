@@ -32,7 +32,19 @@ class Game {
         this.audioPlayer.playAudioForColor(randomChosenColor);
     }
 
+    validateUserAnswer(currentLevel) {
+        //Here I will validate user answers
+    }
 
+    handleButtonClick(clickedColor) {
+        //function to react for button clicks
+        this.ui.animateButtonPress(clickedColor);
+        this.userClickedPattern.push(clickedColor);
+        this.ui.fadeButtonInAndOut(clickedColor, this.animationDuration);
+        this.audioPlayer.playAudioColor(clickedColor);
+        //validate answer call
+        
+    }
 }
 
 class UI {
