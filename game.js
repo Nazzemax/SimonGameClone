@@ -12,7 +12,6 @@ class Game {
         this.audioPlayer = new AudioPlayer();
     }
 
-   
     start() {
         this.ui.displayLevel(`Level ${this.level}`);
         this.generateNextColorSequence();
@@ -49,10 +48,9 @@ class Game {
           );
           setTimeout(() => {
             this.resetGame();
-          }, 200);
+          }, 500);
         }
       }
-    
 
     handleButtonClick(clickedColor) {
         this.ui.animateButtonPress(clickedColor);
@@ -108,7 +106,9 @@ class UI {
 class AudioPlayer {
     playAudioForColor(name) {
         const audio = new Audio(`./sounds/${name}.mp3`);
-        audio.play();
+        audio.play().catch((error) => {
+            console.error('Error playing audio:', error);
+        });
     }
 }
 
@@ -126,7 +126,7 @@ $(window).on('load',() => {
     });
 
     $('.btn').on('click', function () {
-        const clickedColor = $(this)[0].id;
+        const clickedColor = $(this).attr('id');
         game.handleButtonClick(clickedColor);
     });
 
